@@ -11,11 +11,10 @@
             font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
         }
         .form-select {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%path stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
             background-position: right 0.5rem center;
             background-repeat: no-repeat;
             background-size: 1.5em 1.5em;
-            padding-right: 2.5rem;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
         }
@@ -31,6 +30,15 @@
         .risk-low { background-color: #dcfce7; color: #166534; }
         .risk-high { background-color: #fee2e2; color: #991b1b; }
         .risk-ultra-high { background-color: #fef9c3; color: #854d0e; }
+        /* Star rating styles */
+        .star-rating span svg {
+            transition: color 0.2s ease-in-out;
+        }
+        /* 临床试验卡片样式 */
+        .trial-card {
+            border-left: 4px solid #4f46e5; /* indigo-600 */
+            background-color: #fafaff;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -44,89 +52,88 @@
         <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg">
             <form id="gtnForm">
                 <div class="space-y-6">
-                    <!-- 评分项目网格布局 -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                         
                         <!-- 年龄 -->
                         <div>
-                            <label for="age" class="block text-md font-medium text-gray-700 mb-1">年龄</label>
+                            <label for="age" class="block text-md font-medium text-gray-700 mb-1">年龄 (0/1)</label>
                             <select id="age" name="age" class="mt-1 block w-full pl-3 pr-10 py-2.5 text-base border-gray-300 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm rounded-md shadow-sm form-select">
-                                <option value="0">&lt; 40 岁</option>
-                                <option value="1">≥ 40 岁</option>
+                                <option value="0">&lt; 40 岁 (0分)</option>
+                                <option value="1">≥ 40 岁 (1分)</option>
                             </select>
                         </div>
                         
                         <!-- 先行妊娠 -->
                         <div>
-                            <label for="pregnancy" class="block text-md font-medium text-gray-700 mb-1">先行妊娠类型</label>
+                            <label for="pregnancy" class="block text-md font-medium text-gray-700 mb-1">先行妊娠类型 (0/1/2)</label>
                             <select id="pregnancy" name="pregnancy" class="mt-1 block w-full pl-3 pr-10 py-2.5 text-base border-gray-300 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm rounded-md shadow-sm form-select">
-                                <option value="0">葡萄胎</option>
-                                <option value="1">流产</option>
-                                <option value="2">足月妊娠</option>
+                                <option value="0">葡萄胎 (0分)</option>
+                                <option value="1">流产 (1分)</option>
+                                <option value="2">足月妊娠 (2分)</option>
                             </select>
                         </div>
 
                         <!-- 距离末次妊娠时间 -->
                         <div>
-                            <label for="interval" class="block text-md font-medium text-gray-700 mb-1">距离末次妊娠时间 (月)</label>
+                            <label for="interval" class="block text-md font-medium text-gray-700 mb-1">距离末次妊娠时间 (0/1/2/4)</label>
                             <select id="interval" name="interval" class="mt-1 block w-full pl-3 pr-10 py-2.5 text-base border-gray-300 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm rounded-md shadow-sm form-select">
-                                <option value="0">&lt; 4</option>
-                                <option value="1">4 - 6</option>
-                                <option value="2">7 - 12</option>
-                                <option value="4">&gt; 12</option>
+                                <option value="0">&lt; 4 月 (0分)</option>
+                                <option value="1">4 - 6 月 (1分)</option>
+                                <option value="2">7 - 12 月 (2分)</option>
+                                <option value="4">&gt; 12 月 (4分)</option>
                             </select>
                         </div>
 
                         <!-- 治疗前血 hCG 水平 -->
                         <div>
-                            <label for="hcg" class="block text-md font-medium text-gray-700 mb-1">治疗前血 hCG 水平 (IU/L)</label>
+                            <label for="hcg" class="block text-md font-medium text-gray-700 mb-1">治疗前血 hCG (IU/L) (0/1/2/4)</label>
                             <select id="hcg" name="hcg" class="mt-1 block w-full pl-3 pr-10 py-2.5 text-base border-gray-300 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm rounded-md shadow-sm form-select">
-                                <option value="0">&lt; 10³</option>
-                                <option value="1">10³ - 10⁴</option>
-                                <option value="2">10⁴ - 10⁵</option>
-                                <option value="4">&gt; 10⁵</option>
+                                <option value="0">&lt; 10³ (0分)</option>
+                                <option value="1">10³ - 10⁴ (1分)</option>
+                                <option value="2">10⁴ - 10⁵ (2分)</option>
+                                <option value="4">&gt; 10⁵ (4分)</option>
                             </select>
                         </div>
 
                         <!-- 最大肿瘤直径 -->
                         <div>
-                            <label for="tumor_size" class="block text-md font-medium text-gray-700 mb-1">最大肿瘤直径 (包括子宫)</label>
+                            <label for="tumor_size" class="block text-md font-medium text-gray-700 mb-1">最大肿瘤直径 (0/1/2)</label>
                             <select id="tumor_size" name="tumor_size" class="mt-1 block w-full pl-3 pr-10 py-2.5 text-base border-gray-300 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm rounded-md shadow-sm form-select">
-                                <option value="0">&lt; 3 cm</option>
-                                <option value="1">3 - 5 cm</option>
-                                <option value="2">&gt; 5 cm</option>
+                                <option value="0">&lt; 3 cm (0分)</option>
+                                <option value="1">3 - 5 cm (1分)</option>
+                                <option value="2">&gt; 5 cm (2分)</option>
                             </select>
                         </div>
 
                         <!-- 转移部位 -->
                         <div>
-                            <label for="metastasis_site" class="block text-md font-medium text-gray-700 mb-1">转移部位</label>
+                            <label for="metastasis_site" class="block text-md font-medium text-gray-700 mb-1">转移部位 (0/1/2/4)</label>
                             <select id="metastasis_site" name="metastasis_site" class="mt-1 block w-full pl-3 pr-10 py-2.5 text-base border-gray-300 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm rounded-md shadow-sm form-select">
-                                <option value="0">肺</option>
-                                <option value="1">脾、肾</option>
-                                <option value="2">胃肠道</option>
-                                <option value="4">肝、脑</option>
+                                <option value="0">肺 (0分)</option>
+                                <option value="1">脾、肾 (1分)</option>
+                                <option value="2">胃肠道 (2分)</option>
+                                <option value="4">肝、脑 (4分)</option>
                             </select>
                         </div>
 
                         <!-- 转移灶数目 -->
                         <div>
-                            <label for="metastasis_number" class="block text-md font-medium text-gray-700 mb-1">转移灶数目</label>
+                            <label for="metastasis_number" class="block text-md font-medium text-gray-700 mb-1">转移灶数目 (0/1/2/4)</label>
                             <select id="metastasis_number" name="metastasis_number" class="mt-1 block w-full pl-3 pr-10 py-2.5 text-base border-gray-300 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm rounded-md shadow-sm form-select">
-                                <option value="0">0</option>
-                                <option value="1">1 - 4</option>
-                                <option value="2">5 - 8</option>
-                                <option value="4">&gt; 8</option>
+                                <option value="0">0 (0分)</option>
+                                <option value="1">1 - 4 (1分)</option>
+                                <option value="2">5 - 8 (2分)</option>
+                                <option value="4">&gt; 8 (4分)</option>
                             </select>
                         </div>
                         
-                        <!-- 以往化疗失败药物 -->
+                        <!-- (关键) 以往化疗失败药物 -->
                         <div>
-                            <label for="chemo" class="block text-md font-medium text-gray-700 mb-1">以往化疗失败的药物</label>
-                            <select id="chemo" name="chemo" class="mt-1 block w-full pl-3 pr-10 py-2.5 text-base border-gray-300 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm rounded-md shadow-sm form-select">
-                                <option value="0">无</option>
-                                <option value="2">单药化疗</option>
-                                <option value="4">多药联合化疗</option>
+                            <label for="chemo" class="block text-md font-bold text-indigo-700 mb-1">以往化疗失败的药物 (0/2/4)</label>
+                            <select id="chemo" name="chemo" class="mt-1 block w-full pl-3 pr-10 py-2.5 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md shadow-sm form-select font-medium">
+                                <option value="0">无 (0分)</option>
+                                <option value="2">单药化疗 (2分)</option>
+                                <option value="4">多药联合化疗 (4分)</option>
                             </select>
                         </div>
                     </div>
@@ -146,6 +153,8 @@
 
         <!-- 结果显示区域 -->
         <div id="result" class="mt-8"></div>
+
+        <!-- 反馈部分 (Netlify表单) - [已移除] -->
         
         <!-- 免责声明 -->
         <footer class="mt-10 text-center text-xs text-gray-500">
@@ -160,7 +169,79 @@
             const resetBtn = document.getElementById('resetBtn');
             const resultDiv = document.getElementById('result');
 
-            // 计算总分
+            // --- (重大更新) 临床试验数据库 ---
+            // 基于您2025年10月23日提供的最新文本进行全面更新
+            const clinicalTrialsDB = [
+                {
+                    id: 'trial_q11706',
+                    name: '化疗联合艾帕洛利托沃瑞利单抗注射液（QL1706）治疗复发和耐药妊娠滋养细胞肿瘤安全性和有效性的一项多中心、单臂、前瞻性研究',
+                    check: (score, failedChemo) => failedChemo === 4,
+                    description: '适用于对**至少一种联合化疗方案**治疗后复发或耐药的GTN患者。'
+                },
+                {
+                    id: 'trial_ema_ep',
+                    name: 'EMA/EP对比EMA/CO治疗高危妊娠滋养细胞肿瘤的随机对照临床研究',
+                    check: (score, failedChemo) => score >= 7 && score <= 12,
+                    description: '适用于FIGO评分为 <strong>7-12 分</strong>的高危患者（包括单药耐药后进入高危的患者）。'
+                },
+                {
+                    id: 'trial_actd_terei',
+                    name: '探索放线菌素D联合特瑞普利单抗治疗FIGO评分7分的妊娠滋养细胞肿瘤的有效性和安全性：一项II期、前瞻性临床研究',
+                    check: (score, failedChemo) => score === 7,
+                    description: '适用于FIGO评分**恰好为 7 分**的GTN患者。'
+                },
+                {
+                    id: 'trial_new_5_6', // (新增项目)
+                    name: '放线菌素D联合或不联合特瑞普利单抗作为一线方案治疗FIGO评分5-6分的妊娠滋养细胞肿瘤的有效性和安全性：一项多中心、开放、随机对照临床研究',
+                    check: (score, failedChemo) => (score === 5 || score === 6) && failedChemo === 0,
+                    description: '适用于FIGO评分**5-6分**且**既往未接受过化疗**的GTN患者。'
+                },
+                {
+                    id: 'trial_salvage_shr', // (修正项目)
+                    name: '一项观察化疗联合SHR-1210或化疗联合手术治疗复发和耐药妊娠滋养细胞肿瘤的安全性和有效性的多中心前瞻性队列研究',
+                    check: (score, failedChemo) => failedChemo === 4,
+                    description: '适用于对**至少一种联合化疗方案**治疗后复发或耐药的患者。该研究包含两个队列，患者可选择**挽救性手术+化疗 (队列A)**或**SHR-1210+化疗 (队列B)**。'
+                },
+                {
+                    id: 'trial_camrelizumab_a', // (新增项目)
+                    name: '探索卡瑞利珠单抗联合甲磺酸阿帕替尼片治疗高危型妊娠滋养细胞肿瘤的有效性和安全性 (队列A: 超高危初治)',
+                    check: (score, failedChemo) => score >= 13 && failedChemo === 0,
+                    description: '适用于FIGO评分**≥13分**的**初次治疗**的超高危GTN患者。'
+                },
+                {
+                    id: 'trial_camrelizumab_b', // (新增项目)
+                    name: '探索卡瑞利珠单抗联合甲磺酸阿帕替尼片治疗高危型妊娠滋养细胞肿瘤的有效性和安全性 (队列B: 高危经治)',
+                    check: (score, failedChemo) => score >= 7 && failedChemo === 4,
+                    description: '适用于FIGO评分**≥7分**且既往接受过**至少2次系统治疗**（如联化耐药）的GTN患者。'
+                }
+            ];
+
+            // --- 临床试验匹配逻辑 (无变化) ---
+            const getClinicalTrials = (score, failedChemoValue) => {
+                const matchedTrials = clinicalTrialsDB.filter(trial => trial.check(score, failedChemoValue));
+                
+                let html = `<div class="mt-6 pt-5 border-t border-gray-200">
+                                <h4 class="font-semibold text-lg mb-4 text-indigo-700">潜在临床试验推荐</h4>`;
+                
+                if (matchedTrials.length === 0) {
+                    html += `<p class="text-gray-600 text-sm">根据您输入的信息，暂未匹配到相关的临床试验。</p>`;
+                } else {
+                    html += `<p class="text-gray-600 text-sm mb-4">根据患者情况，系统匹配到以下潜在的临床试验选项，请结合完整入选标准进行评估：</p>`;
+                    html += `<div class="space-y-4">`;
+                    matchedTrials.forEach(trial => {
+                        html += `<div class="p-4 rounded-lg trial-card">
+                                    <strong class="font-semibold text-gray-900">${trial.name}</strong>
+                                    <p class="text-sm text-gray-700 mt-1"><strong>匹配原因:</strong> ${trial.description}</p>
+                                 </div>`;
+                    });
+                    html += `</div>`;
+                }
+                
+                html += `</div>`;
+                return html;
+            };
+
+            // --- 评分计算逻辑 (无变化) ---
             const calculateScore = () => {
                 const formData = new FormData(form);
                 let score = 0;
@@ -170,46 +251,28 @@
                 return score;
             };
 
-            // 显示结果
+            // --- (更新) 结果显示逻辑 (无变化) ---
             const displayResult = (score) => {
-                let riskLevel, riskClass, recommendation;
+                const failedChemoValue = parseInt(document.getElementById('chemo').value, 10);
 
+                let riskLevel, riskClass, recommendation;
                 if (score <= 6) {
-                    riskLevel = '低危 (Low Risk)';
-                    riskClass = 'risk-low';
-                    recommendation = `
-                        <h4 class="font-semibold text-lg mb-2 text-gray-800">诊疗建议概要</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-700">
-                            <li><strong>主要治疗:</strong> 单药化疗是首选治疗方案。</li>
-                            <li><strong>常用药物:</strong> 甲氨蝶呤 (MTX) 或放线菌素D (Act-D)。</li>
-                            <li><strong>监测:</strong> 治疗期间需严密监测血hCG水平，直至其恢复正常并巩固治疗。</li>
-                            <li><strong>预后:</strong> 对于单药化疗有效的低危GTN，治愈率接近100%。如果出现耐药，可换用另一种单药或联合化疗。</li>
-                        </ul>
-                    `;
-                } else { // score >= 7
-                    riskLevel = '高危 (High Risk)';
-                    riskClass = 'risk-high';
-                    recommendation = `
-                        <h4 class="font-semibold text-lg mb-2 text-gray-800">诊疗建议概要</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-700">
-                             <li><strong>主要治疗:</strong> 多药联合化疗是标准治疗方案。</li>
-                             <li><strong>常用方案:</strong> EMA-CO方案 (依托泊苷、甲氨蝶呤、放线菌素D、环磷酰胺、长春新碱) 是最常用的一线方案。</li>
-                             <li><strong>辅助治疗:</strong> 根据转移部位（如脑、肝转移），可能需要联合手术或放疗。</li>
-                             <li><strong>监测与管理:</strong> 治疗强度大，需积极处理化疗相关毒副反应，严密监测hCG水平。</li>
-                             <li><strong>预后:</strong> 即使是高危患者，通过标准联合化疗，治愈率也可达到80-90%。</li>
-                        </ul>
-                    `;
-                     // FIGO 2000分期标准将评分≥12定义为超高危
-                    if (score >= 12) {
-                         riskLevel = '超高危 (Ultra High-Risk)';
-                         riskClass = 'risk-ultra-high';
-                         recommendation += `
-                            <div class="mt-4 p-3 bg-yellow-100 border-l-4 border-yellow-500 rounded-r-lg">
-                                <p class="text-yellow-800 font-medium"><strong>特别注意:</strong> 该评分属于超高危范畴，可能需要更强的诱导化疗方案（如EP/EMA）以降低早期死亡风险，并应在经验丰富的中心进行治疗。</p>
-                            </div>
-                         `;
+                    riskLevel = '低危 (Low Risk)'; riskClass = 'risk-low';
+                    recommendation = `<h4 class="font-semibold text-lg mb-2 text-gray-800">诊疗建议概要</h4><ul class="list-disc list-inside space-y-1 text-gray-700"><li><strong>主要治疗:</strong> 单药化疗是首选治疗方案。</li><li><strong>常用药物:</strong> 甲氨蝶呤 (MTX) 或放线菌素D (Act-D)。</li><li><strong>预后:</strong> 治愈率接近100%。</li></ul>`;
+                    if (failedChemoValue === 2) { // 低危但单药耐药
+                        recommendation += `<p class="text-sm font-medium text-yellow-700 mt-2"><strong>注意:</strong> 患者评分仍为低危，但已出现单药耐药，请评估更换单药或联合化疗。</p>`;
+                    }
+                } else {
+                    riskLevel = '高危 (High Risk)'; riskClass = 'risk-high';
+                    recommendation = `<h4 class="font-semibold text-lg mb-2 text-gray-800">诊疗建议概要</h4><ul class="list-disc list-inside space-y-1 text-gray-700"><li><strong>主要治疗:</strong> 多药联合化疗是标准治疗方案。</li><li><strong>常用方案:</strong> EMA-CO方案 (依托泊苷、甲氨蝶呤、放线菌素D、环磷酰胺、长春新碱) 是最常用的一线方案。</li><li><strong>预后:</strong> 治愈率可达80-90%。</li></ul>`;
+                    if (score >= 13) { // (更新) 匹配超高危定义
+                         riskLevel = '超高危 (Ultra High-Risk)'; riskClass = 'risk-ultra-high';
+                         recommendation += `<div class="mt-4 p-3 bg-yellow-100 border-l-4 border-yellow-500 rounded-r-lg"><p class="text-yellow-800 font-medium"><strong>特别注意:</strong> 该评分属于超高危范畴，可能需要更强的诱导化疗方案（如EP/EMA），并应在经验丰富的中心进行治疗。</p></div>`;
                     }
                 }
+                
+                // (新增) 获取临床试验推荐
+                const trialsHtml = getClinicalTrials(score, failedChemoValue);
 
                 resultDiv.innerHTML = `
                     <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8 result-card">
@@ -224,21 +287,16 @@
                         <div class="mt-6 pt-5 border-t border-gray-200">
                             ${recommendation}
                         </div>
-                    </div>
-                `;
-                // 触发动画
-                setTimeout(() => {
-                    const resultCard = resultDiv.querySelector('.result-card');
-                    if (resultCard) {
-                         resultCard.classList.add('show');
-                    }
-                }, 10);
+                        <!-- 临床试验模块 -->
+                        ${trialsHtml}
+                    </div>`;
+                
+                setTimeout(() => { const card = resultDiv.querySelector('.result-card'); if (card) card.classList.add('show'); }, 10);
             };
 
             calculateBtn.addEventListener('click', () => {
                 const score = calculateScore();
                 displayResult(score);
-                 // 平滑滚动到结果区域
                 resultDiv.scrollIntoView({ behavior: 'smooth' });
             });
 
@@ -246,6 +304,10 @@
                 form.reset();
                 resultDiv.innerHTML = '';
             });
+
+            // --- [已移除] 反馈部分逻辑 ---
+
+            // --- [已移除] Netlify 表单提交逻辑 ---
         });
     </script>
 </body>
