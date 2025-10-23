@@ -187,8 +187,8 @@
                 {
                     id: 'trial_actd_terei',
                     name: '探索放线菌素D联合特瑞普利单抗治疗FIGO评分7分的妊娠滋养细胞肿瘤的有效性和安全性：一项II期、前瞻性临床研究',
-                    check: (score, failedChemo) => score === 7,
-                    description: '适用于FIGO评分**恰好为 7 分**的GTN患者。'
+                    check: (score, failedChemo) => score === 7 && failedChemo === 0,
+                    description: '适用于FIGO评分**恰好为 7 分**且**既往未接受过化疗**的GTN患者。'
                 },
                 {
                     id: 'trial_new_5_6', // (新增项目)
@@ -312,4 +312,5 @@
     </script>
 </body>
 </html>
+
 
