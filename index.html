@@ -181,8 +181,8 @@
                 {
                     id: 'trial_ema_ep',
                     name: 'EMA/EP对比EMA/CO治疗高危妊娠滋养细胞肿瘤的随机对照临床研究',
-                    check: (score, failedChemo) => score >= 7 && score <= 12,
-                    description: '适用于FIGO评分为 <strong>7-12 分</strong>的高危患者（包括单药耐药后进入高危的患者）。'
+                    check: (score, failedChemo) => score >= 7 && score <= 12 && failedChemo !== 4,
+                    description: '适用于FIGO评分为 <strong>7-12 分</strong>的高危患者（包括**初治**或**单药耐药**后进入高危的患者）。'
                 },
                 {
                     id: 'trial_actd_terei',
@@ -312,5 +312,6 @@
     </script>
 </body>
 </html>
+
 
 
